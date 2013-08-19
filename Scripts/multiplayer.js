@@ -2,7 +2,7 @@
     socket: undefined,
     start: function () {
         game.type = "multiplayer";
-        // multiPlayer.socket = io.connect('http://localhost:8000');
+        //multiPlayer.socket = io.connect('http://localhost:8000');
         if (multiPlayer.socket == undefined) {
             multiPlayer.endGame("Error connecting to the server.");
         } else {

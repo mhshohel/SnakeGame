@@ -18,7 +18,7 @@
         loader.init();
         sounds.init();
         game.scoreObject = undefined;
-        multiPlayer.socket = io.connect('http://localhost:8000');
+        multiPlayer.socket = io.connect('http://localhost:8000/');
         game.getLiveScore(false);
         //get Canvas
         game.gameCanvas = document.getElementById("gameCanvas");

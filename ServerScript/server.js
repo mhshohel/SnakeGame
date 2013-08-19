@@ -21,7 +21,7 @@ function setScore(val, name) {
     }
 
     if (isNumber(val)) {
-        if (val < 1000000) {
+        if (val < 1000000 && val > 0 && val > score.points) {
             score.points = Math.floor(val);
             score.name = name;
         }
@@ -101,14 +101,22 @@ function setEventHandelers() {
 }
 
 //return score
-function onScoreRequest() {
-    socket.emit('getScore', JSON.stringify({type: "getScore", name: score.name, points: score.points}));
+function onScoreRequest(data) {
+    try {
+        socket.emit('getScore', JSON.stringify({type: "getScore", name: score.name, points: score.points}));
+    } catch (err) {
+        onClientLeftGameRoom(data);
+    }
 }
 
 //set new score if higher that previous
 function onNewScoreSet(data) {
-    var message = JSON.parse(data);
-    setScore(message.points, message.name);
+    try {
+        var message = JSON.parse(data);
+        setScore(message.points, message.name);
+    } catch (err) {
+        onClientLeftGameRoom(data);
+    }
 }
 
 //return game room list
@@ -123,92 +131,112 @@ function onUpdateRoom(reactivate, disconnectedRoomId, message) {
 
 //player movement, if any key pressed by user
 function onPlayersMovement(data) {
-    var message = JSON.parse(data);
-    var room = gameRooms[message.roomId];
-    var player;
-    if (room.players[0].getId() == message.playerId) {
-        player = room.players[1];
-    } else {
-        player = room.players[0];
+    try {
+        var message = JSON.parse(data);
+        var room = gameRooms[message.roomId];
+        var player;
+        if (room.players[0].getId() == message.playerId) {
+            player = room.players[1];
+        } else {
+            player = room.players[0];
+        }
+        player.getClient().emit("players_movement", JSON.stringify({type: 'players_movement', roomId: message.roomId, playerId: player.getId(), keyDirection: message.keyDirection}));
+    } catch (err) {
+        onClientLeftGameRoom(data);
     }
-    player.getClient().emit("players_movement", JSON.stringify({type: 'players_movement', roomId: message.roomId, playerId: player.getId(), keyDirection: message.keyDirection}));
 }
 
 //players time snyc to make it sure both site gets the same time
 function onTimeSnyc(data) {
-    var message = JSON.parse(data);
-    var room = gameRooms[message.roomId];
-    var player;
+    try {
+        var message = JSON.parse(data);
+        var room = gameRooms[message.roomId];
+        var player;
 
-    if (room.players[0].getId() == message.playerId) {
-        player = room.players[1];
-    } else {
-        player = room.players[0];
-    }
-    player.timer = message.timer;
-    if (room.players[0].timer != 999 && room.players[1].timer != 999) {
-        if (room.players[0].timer == room.players[1].timer) {
-            room.players[0].timer = 999;
-            room.players[1].timer = 999;
+        if (room.players[0].getId() == message.playerId) {
+            player = room.players[1];
         } else {
-            resetGameRoom(message.roomId);
-            onUpdateRoom(true, room.roomId - 1, "Connection Error! Game cannot synchronise with other player. Do not leave the game while playing with others.");
+            player = room.players[0];
         }
+        player.timer = message.timer;
+        if (room.players[0].timer != 999 && room.players[1].timer != 999) {
+            if (room.players[0].timer == room.players[1].timer) {
+                room.players[0].timer = 999;
+                room.players[1].timer = 999;
+            } else {
+                resetGameRoom(message.roomId);
+                onUpdateRoom(true, room.roomId - 1, "Connection Error! Game cannot synchronise with other player. Do not leave the game while playing with others.");
+            }
+        }
+    } catch (err) {
+        onClientLeftGameRoom(data);
     }
 }
 
 //show timer on startup
 function onGameTimer(data) {
-    var message = JSON.parse(data);
-    var players = gameRooms[message.roomId].players;
-    var levelTime = 120;
-    var counter = 5;
-    var timer = function () {
-        if (counter >= 0) {
-            for (var i = 0; i < players.length; i++) {
-                var client = players[i].getClient();
-                var host = players[i].host;  //send user about his pos, host 1 or 2
-                client.emit("timer", JSON.stringify({type: 'timer', levelTime: levelTime, counter: counter, host: host, cId: client.id, roomId: message.roomId}));
+    try {
+        var message = JSON.parse(data);
+        var players = gameRooms[message.roomId].players;
+        var levelTime = 120;
+        var counter = 5;
+        var timer = function () {
+            if (counter >= 0) {
+                for (var i = 0; i < players.length; i++) {
+                    var client = players[i].getClient();
+                    var host = players[i].host;  //send user about his pos, host 1 or 2
+                    client.emit("timer", JSON.stringify({type: 'timer', levelTime: levelTime, counter: counter, host: host, cId: client.id, roomId: message.roomId}));
+                }
+                counter--;
+            } else {
+                clearInterval(timer);
             }
-            counter--;
-        } else {
-            clearInterval(timer);
-        }
-    };
-    setInterval(timer, 1000);
+        };
+        setInterval(timer, 1000);
+    } catch (err) {
+        onClientLeftGameRoom(data);
+    }
 }
 
 //return foods on request
 function onFoodRequest(data) {
-    var message = JSON.parse(data);
-    var room = gameRooms[message.roomId];
-    var players = room.players;
-    initNewFood(room);
-    //init food
-    for (var i = 0; i < players.length; i++) {
-        var client = players[i].getClient();
-        client.emit("foodReq", JSON.stringify({type: 'foodReq', foodId: room.foodId, foodNum: room.foodNum, posX: room.foodPosX, posY: room.foodPosY}));
+    try {
+        var message = JSON.parse(data);
+        var room = gameRooms[message.roomId];
+        var players = room.players;
+        initNewFood(room);
+        //init food
+        for (var i = 0; i < players.length; i++) {
+            var client = players[i].getClient();
+            client.emit("foodReq", JSON.stringify({type: 'foodReq', foodId: room.foodId, foodNum: room.foodNum, posX: room.foodPosX, posY: room.foodPosY}));
+        }
+    } catch (err) {
+        onClientLeftGameRoom(data);
     }
 }
 
 //Check who eat foods
 function onVerifyFood(data) {
-    var message = JSON.parse(data);
-    var room = gameRooms[message.roomId];
-    if (room.foodId == message.foodId) {
-        //update snake
-        var players = room.players;
-        if (players[0].getClient().id == message.playerId) {
-            players[0].addScore(10);
-            players[0].getClient().emit("updateSnake", JSON.stringify({type: 'updateSnake', toClient: "local", sX: message.sX, sY: message.sY, score: players[0].getScore()}));
-            players[1].getClient().emit("updateSnake", JSON.stringify({type: 'updateSnake', toClient: "remote", sX: message.sX, sY: message.sY, score: players[0].getScore()}));
-        } else {
-            players[1].addScore(10);
-            players[1].getClient().emit("updateSnake", JSON.stringify({type: 'updateSnake', toClient: "local", sX: message.sX, sY: message.sY, score: players[1].getScore()}));
-            players[0].getClient().emit("updateSnake", JSON.stringify({type: 'updateSnake', toClient: "remote", sX: message.sX, sY: message.sY, score: players[1].getScore()}));
+    try {
+        var message = JSON.parse(data);
+        var room = gameRooms[message.roomId];
+        if (room.foodId == message.foodId) {
+            //update snake
+            var players = room.players;
+            if (players[0].getClient().id == message.playerId) {
+                players[0].addScore(10);
+                players[0].getClient().emit("updateSnake", JSON.stringify({type: 'updateSnake', toClient: "local", sX: message.sX, sY: message.sY, score: players[0].getScore()}));
+                players[1].getClient().emit("updateSnake", JSON.stringify({type: 'updateSnake', toClient: "remote", sX: message.sX, sY: message.sY, score: players[0].getScore()}));
+            } else {
+                players[1].addScore(10);
+                players[1].getClient().emit("updateSnake", JSON.stringify({type: 'updateSnake', toClient: "local", sX: message.sX, sY: message.sY, score: players[1].getScore()}));
+                players[0].getClient().emit("updateSnake", JSON.stringify({type: 'updateSnake', toClient: "remote", sX: message.sX, sY: message.sY, score: players[1].getScore()}));
+            }
         }
+        onFoodRequest(data);
+    } catch (err) {
+        onClientLeftGameRoom(data);
     }
-    onFoodRequest(data);
 }
 
 //add client information to the room
@@ -322,21 +350,25 @@ function sendGameListToClient(reactivate, disconnectedRoomId, errorMessage) {
 
 //gameover
 function onGameOver(data) {
-    var message = JSON.parse(data);
-    var room = gameRooms[message.roomId];
-    room.requestCounter++;
-    if (room.requestCounter == 2) {
-        if (room.players[0].getScore() == room.players[1].getScore()) {
-            room.players[0].getClient().emit('gameover', JSON.stringify({type: 'gameover', message: "Game Draw", color: "yellow"}));
-            room.players[1].getClient().emit('gameover', JSON.stringify({type: 'gameover', message: "Game Draw", color: "yellow"}));
-        } else if (room.players[0].getScore() > room.players[1].getScore()) {
-            room.players[0].getClient().emit('gameover', JSON.stringify({type: 'gameover', message: "You Won", color: "#99CCFF"}));
-            room.players[1].getClient().emit('gameover', JSON.stringify({type: 'gameover', message: "You Lost", color: "#f43a7e"}));
-        } else {
-            room.players[1].getClient().emit('gameover', JSON.stringify({type: 'gameover', message: "You Won", color: "#99CCFF"}));
-            room.players[0].getClient().emit('gameover', JSON.stringify({type: 'gameover', message: "You Lost", color: "#f43a7e"}));
+    try {
+        var message = JSON.parse(data);
+        var room = gameRooms[message.roomId];
+        room.requestCounter++;
+        if (room.requestCounter == 2) {
+            if (room.players[0].getScore() == room.players[1].getScore()) {
+                room.players[0].getClient().emit('gameover', JSON.stringify({type: 'gameover', message: "Game Draw", color: "yellow"}));
+                room.players[1].getClient().emit('gameover', JSON.stringify({type: 'gameover', message: "Game Draw", color: "yellow"}));
+            } else if (room.players[0].getScore() > room.players[1].getScore()) {
+                room.players[0].getClient().emit('gameover', JSON.stringify({type: 'gameover', message: "You Won", color: "#99CCFF"}));
+                room.players[1].getClient().emit('gameover', JSON.stringify({type: 'gameover', message: "You Lost", color: "#f43a7e"}));
+            } else {
+                room.players[1].getClient().emit('gameover', JSON.stringify({type: 'gameover', message: "You Won", color: "#99CCFF"}));
+                room.players[0].getClient().emit('gameover', JSON.stringify({type: 'gameover', message: "You Lost", color: "#f43a7e"}));
+            }
+            room.requestCounter = 0;
         }
-        room.requestCounter = 0;
+    } catch (err) {
+        onClientLeftGameRoom(data);
     }
 }
 
