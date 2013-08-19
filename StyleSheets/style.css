@@ -131,14 +131,13 @@
 .Continue span:hover {
     color: mediumspringgreen;
 }
-
-/* Message Box Screen and Player name input*/
-#messageboxscreen, #playerNameBox {
+/*Player Messagebox*/
+#playerNameBox {
     background: rgba(32, 32, 32, 0.7);
     z-index: 100;
 }
 
-#messagebox, #playerName {
+#playerName {
     position: absolute;
     top: 245px;
     left: 315px;
@@ -156,7 +155,7 @@
     font-family: 'Courier New', Courier, monospace;
 }
 
-#messagebox, #playerName p {
+#playerName p {
     position: absolute;
     top: 5px;
     left: 20px;
@@ -167,7 +166,7 @@
     color: rgb(144, 0, 0);
 }
 
-#messagebox, #playerName span {
+#playerName span {
     position: absolute;
     top: 20px;
     margin: 20px;
@@ -175,7 +174,7 @@
     height: 150px;
 }
 
-#messagebox, #playerName input[type="button"] {
+#playerName input[type="button"] {
     position: absolute;
     padding: 0px;
     cursor: pointer;
@@ -183,11 +182,11 @@
     border: 1px solid black;
 }
 
-#messagebox, #playerName input[type="button"]:hover {
+#playerName input[type="button"]:hover {
     color: white;
 }
 
-#messagebox, #playerName input[type="button"]:active {
+#playerName input[type="button"]:active {
     color: purple;
 }
 
@@ -206,7 +205,83 @@
     height: 40px;
 }
 
-#messageboxok, #playerNameButton {
+#playerNameButton {
+    top: 186px;
+    left: 20px;
+    width: 74px;
+    height: 26px;
+}
+
+
+/* Message Box Screen and Player name input*/
+#messageboxscreen {
+    background: rgba(32, 32, 32, 0.7);
+    z-index: 100;
+}
+
+#messagebox {
+    position: absolute;
+    top: 245px;
+    left: 315px;
+    width: 390px;
+    height: 230px;
+    -moz-border-radius: 25px 10px / 10px 25px;
+    -o-border-radius: 25px 10px / 10px 25px;
+    -ms-border-radius: 25px 10px / 10px 25px;
+    -webkit-border-radius: 25px 10px / 10px 25px;
+    border-radius: 25px 10px / 10px 25px;
+    border: 2px solid white;
+    background-color: rgb(216, 216, 216);
+    overflow: hidden;
+    font-size: 16px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+#messagebox p {
+    position: absolute;
+    top: 5px;
+    left: 20px;
+    right: 20px;
+    height: 30px;
+    font-size: 18px;
+    font-weight: 900;
+    color: rgb(144, 0, 0);
+}
+
+#messagebox span {
+    position: absolute;
+    top: 20px;
+    margin: 20px;
+    width: 360px;
+    height: 150px;
+}
+
+#messagebox input[type="button"] {
+    position: absolute;
+    padding: 0px;
+    cursor: pointer;
+    background: rgb(200, 200, 200);
+    border: 1px solid black;
+}
+
+#messagebox input[type="button"]:hover {
+    color: white;
+}
+
+#messagebox input[type="button"]:active {
+    color: purple;
+}
+
+#playerName input[type="text"] {
+    top: 70px;
+    left: 20px;
+    position: absolute;
+    padding: 0px;
+    background-color: rgb(216, 216, 216);
+    border: 1px solid black;
+}
+
+#messageboxok {
     top: 186px;
     left: 20px;
     width: 74px;

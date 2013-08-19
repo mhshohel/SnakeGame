@@ -63,16 +63,16 @@ function init() {
     //configure Socket.IO
     io.configure(function () {
         //only websockets not supported by Azure
-        io.set('transports', ['websocket']);
+        //io.set('transports', ['websocket']);
         //others
-        //socket.set('transports', ['xhr-polling', 'jsonp-polling', 'htmlfile', 'websocket']);
+        io.set('transports', ['xhr-polling', 'jsonp-polling', 'htmlfile']);
         // Restrict log output
         //The amount of detail that the server should output to the logger.
         //0 - error, 1 - warn, 2 - info, 3 - debug
         io.set("log level", 3);
         //The maximum duration of one HTTP poll, if it exceeds this limit it will be closed.
         //use if transports are: xhr-polling, jsonp-polling
-        //socket.set("polling duration", 20);
+        io.set("polling duration", 10);
     });
 
     //setup all events
@@ -139,6 +139,7 @@ function onTimeSnyc(data) {
     var message = JSON.parse(data);
     var room = gameRooms[message.roomId];
     var player;
+
     if (room.players[0].getId() == message.playerId) {
         player = room.players[1];
     } else {
