@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Snake Game</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, user-scalable=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <link rel="shortcut icon" href="Images/snakeicon.png"/>
+    <script src="Lib/modernizr.min.js"></script>
+    <script src="Scripts/resources.load.js"></script>
+</head>
+<body>
+<div id="messageboxscreen" class="GameLayer">
+    <div id="messagebox">
+        <p id="messageTitle"></p>
+        <span id="messageboxtext"></span>
+        <input type="button" id="messageboxok" onclick=""/>
+        <input type="button" id="messageboxcancel" onclick=""/>
+    </div>
+</div>
+<div id="playerNameBox" class="GameLayer">
+    <div id="playerName">
+        <p id="playerNameTitle"></p> <br/><br/>
+        <input type="text" id="nameField" autofocus="true" maxlength="10"/>
+        <input type="button" id="playerNameButton"/>
+    </div>
+</div>
+<canvas class="GameLayer" id="gameCanvas"></canvas>
+<div id="gameContainer">
+    <div class="GameLayer" id="loadingScreen">
+        <div id="loadingMessage"></div>
+    </div>
+    <div class="Gamelayer" id="gameStartScreen">
+        <p id="localPlayerScore"> <br><br> </p>
+        <span id="singlePlayer" onclick="singlePlayer.start()"></span>
+        <span id="multiPlayer" onclick="multiPlayer.start()"></span>
+        <blockquote id="keys"></blockquote>
+    </div>
+    <div id="statusScreen" class="GameLayer">
+        <h1 class="Logo"></h1>
+
+        <div id="statusScreenText"></div>
+        <br/>
+
+        <div class="Continue">
+            <span id="continue"></span>
+        </div>
+    </div>
+    <div id="multiPlayerLobbyScreen" class="GameLayer">
+        <select id="multiPlayerGamesList" size="10">
+        </select>
+        <input type="button" id="multiPlayerJoin" onclick=""/>
+        <input type="button" id="multiPlayerCancel" onclick=""/>
+    </div>
+</div>
+</body>
+</html>

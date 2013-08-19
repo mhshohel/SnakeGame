@@ -1,0 +1,313 @@
+﻿#gameContainer {
+    width: 1020px;
+    height: 760px;
+    background: url(../Images/background.png);
+    -moz-background-size: 1020px 760px;
+    -o-background-size: 1020px 760px;
+    -webkit-background-size: 1020px 760px;
+    background-size: 1020px 760px;
+    border: 1px solid black;
+}
+
+.GameLayer {
+    width: 1020px;
+    height: 760px;
+    position: absolute;
+    display: none;
+}
+
+/* Game Starting Menu Screen */
+#gameStartScreen {
+    padding-top: 275px;
+    text-align: center;
+    padding-left: 175px;
+    width: 700px;
+    height: 160px;
+}
+
+#gameStartScreen span {
+    margin: 25px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 48px;
+    cursor: pointer;
+    line-height: 57px;
+    color: white;
+    -webkit-text-shadow: -2px 0 purple, 0 2px purple, 2px 0 purple, 0 -2px purple;
+    text-shadow: -2px 0 purple, 0 2px purple, 2px 0 purple, 0 -2px purple;
+}
+
+#gameStartScreen p {
+    margin: 50px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 36px;
+    font-style: italic;
+    cursor: pointer;
+    line-height: 57px;
+    color: rgb(70, 120, 20);
+}
+
+#gameStartScreen blockquote {
+    margin: 10px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16px;
+    font-style: italic;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 40px;
+    color: black;
+}
+
+#gameStartScreen span:hover {
+    color: mediumspringgreen;
+}
+
+/* Loading Screen */
+#loadingScreen {
+    background: rgb(128, 128, 128);
+}
+
+#loadingMessage {
+    margin-top: 640px;
+    text-align: center;
+    height: 48px;
+    color: white;
+    background: url(../Images/loader.gif) no-repeat center;
+    font: 16px Arial;
+}
+
+/*Message box as Intro menu of level, game over, next level*/
+#statusScreen {
+    display: none;
+    width: 1020px;
+    height: 380px;
+    top: 100px;
+    left: 0;
+    padding: 10px;
+    text-decoration: none;
+    margin: 0 auto;
+}
+
+.Logo {
+    font-family: Slackey;
+    margin: 0;
+    text-align: center;
+    color: rgb(70, 120, 20);
+    font-size: 3.5em;
+    line-height: 0.9em;
+    -webkit-text-shadow: 0.05em 0.05em 0.05em rgb(255, 255, 0), -0.05em -0.05em 0.05em rgb(255, 255, 0), 0.08em 0.10em 0.10em #00f746;
+    text-shadow: 0.05em 0.05em 0.05em rgb(255, 255, 0), -0.05em -0.05em 0.05em rgb(255, 255, 0), 0.08em 0.10em 0.10em #00f746;
+}
+
+.no-textshadow .Logo {
+    filter: dropshadow(color=#000000, offX=3, offY=3);
+}
+
+/*Player status: points, time*/
+#statusScreenText {
+    margin: 20px;
+    padding: 10px;
+    font-family: Geo;
+    text-align: center;
+    font-size: 1.8em;
+    line-height: 0.9em;
+    color: darkred;
+}
+
+.Continue {
+    padding-top: 10px;
+    text-align: center;
+}
+
+.Continue span {
+    margin: 10px;
+    font-family: Geo;
+    font-size: 3em;
+    cursor: pointer;
+    color: white;
+    -webkit-text-shadow: -2px 0 purple, 0 2px purple, 2px 0 purple, 0 -2px purple;
+    text-shadow: -2px 0 purple, 0 2px purple, 2px 0 purple, 0 -2px purple;
+}
+
+.Continue span:hover {
+    color: mediumspringgreen;
+}
+
+/* Message Box Screen and Player name input*/
+#messageboxscreen, #playerNameBox {
+    background: rgba(32, 32, 32, 0.7);
+    z-index: 100;
+}
+
+#messagebox, #playerName {
+    position: absolute;
+    top: 245px;
+    left: 315px;
+    width: 390px;
+    height: 230px;
+    -moz-border-radius: 25px 10px / 10px 25px;
+    -o-border-radius: 25px 10px / 10px 25px;
+    -ms-border-radius: 25px 10px / 10px 25px;
+    -webkit-border-radius: 25px 10px / 10px 25px;
+    border-radius: 25px 10px / 10px 25px;
+    border: 2px solid white;
+    background-color: rgb(216, 216, 216);
+    overflow: hidden;
+    font-size: 16px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+#messagebox, #playerName p {
+    position: absolute;
+    top: 5px;
+    left: 20px;
+    right: 20px;
+    height: 30px;
+    font-size: 18px;
+    font-weight: 900;
+    color: rgb(144, 0, 0);
+}
+
+#messagebox, #playerName span {
+    position: absolute;
+    top: 20px;
+    margin: 20px;
+    width: 360px;
+    height: 150px;
+}
+
+#messagebox, #playerName input[type="button"] {
+    position: absolute;
+    padding: 0px;
+    cursor: pointer;
+    background: rgb(200, 200, 200);
+    border: 1px solid black;
+}
+
+#messagebox, #playerName input[type="button"]:hover {
+    color: white;
+}
+
+#messagebox, #playerName input[type="button"]:active {
+    color: purple;
+}
+
+#playerName input[type="text"] {
+    top: 70px;
+    left: 20px;
+    position: absolute;
+    padding: 0px;
+    background-color: rgb(216, 216, 216);
+    border: 1px solid black;
+}
+
+#nameField {
+    font-size: 2em;
+    width: 300px;
+    height: 40px;
+}
+
+#messageboxok, #playerNameButton {
+    top: 186px;
+    left: 20px;
+    width: 74px;
+    height: 26px;
+}
+
+#messageboxcancel {
+    left: 120px;
+    top: 186px;
+    width: 74px;
+    height: 26px;
+}
+
+/* Multiplayer Lobby Screen */
+#multiPlayerLobbyScreen {
+    display: none;
+    width: 1020px;
+    height: 760px;
+    top: 9px;
+    left: 9px;
+    text-decoration: none;
+    margin: 0 auto;
+    background: black;
+}
+
+#multiPlayerLobbyScreen input[type="button"] {
+    position: absolute;
+    border-width: 0px;
+    padding: 0px;
+    cursor: pointer;
+}
+
+#multiPlayerJoin {
+    background-position: -2px -212px;
+    top: 460px;
+    left: 250px;
+    width: 74px;
+    height: 26px;
+}
+
+#multiPlayerJoin:active {
+    color: black;
+}
+
+#multiPlayerJoin:disabled {
+    color: red;
+}
+
+#multiPlayerCancel {
+    background-position: -86px -150px;
+    top: 460px;
+    left: 676px;
+    width: 74px;
+    height: 26px;
+}
+
+#multiPlayerCancel:active, #multiPlayerCancel:disabled {
+    color: black;
+}
+
+#multiPlayerGamesList {
+    padding: 20px;
+    position: absolute;
+    width: 500px;
+    height: 300px;
+    top: 150px;
+    left: 250px;
+    background-color: rgb(216, 216, 216);
+    font-size: 22px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+#multiPlayerGamesList:focus {
+    outline: none;
+}
+
+#multiPlayerGamesList option.running {
+    color: red;
+}
+
+#multiPlayerGamesList option.waiting {
+    color: green;
+}
+
+#multiPlayerGamesList option.empty {
+    color: black;
+}
+
+#multiPlayerGamesList option.starting {
+    color: red;
+}
+
+/*#chatmessage{
+    position:absolute;
+    top:460px;
+    width:479px;
+    background:rgba(0,255,0,0.1);
+    color:green;
+    border:1px solid green;
+    display:none;
+}
+#chatmessage:focus {
+    outline:none;    
+}*/
