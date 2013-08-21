@@ -411,6 +411,7 @@
             game.foodInBoard.clearAnimation();
             game.foodInBoard = undefined;
         }
+        game.reset();
         game.clearCanvas();
         game.clearBoard();
     },
