@@ -12,6 +12,7 @@
         //create new player
         $('#gameStartScreen').hide();
         $('#gameCanvas').show();
+        game.stop();
         game.type = "singleplayer";
         game.localPlayer = new Player();
         game.clearCanvas();
@@ -45,7 +46,6 @@
     },
     //start screen, forNewLevel=undefined if new level not found
     startScreen: function (forNewLevel) {
-        game.stop();
         if (forNewLevel == undefined) {
             forNewLevel = false;
         }
